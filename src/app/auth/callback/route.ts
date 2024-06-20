@@ -16,10 +16,12 @@ export async function GET(request: Request) {
 
     if (!error) {
       return NextResponse.redirect(`${origin}${next}`);
+    } else {
+      // Redirect to the error page with the error message as a query parameter
+      return NextResponse.redirect(`${origin}/auth/auth-error?error=${encodeURIComponent(error.message)}`);
     }
   }
 
-  // TODO: Create this page
-  // return the user to an error page with instructions
+  // Redirect to the error page without a specific error message
   return NextResponse.redirect(`${origin}/auth/auth-error`);
 }
