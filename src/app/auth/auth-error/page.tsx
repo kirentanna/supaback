@@ -1,14 +1,24 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 
-export default function AuthError() {
-  const router = useRouter();
-  const { error } = router.query;
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const { error } = query;
 
+  return {
+    props: {
+      error: error ? decodeURIComponent(error as string) : null,
+    },
+  };
+};
+
+const AuthError = ({ error }) => {
   return (
     <div>
       <p>Authentication Error</p>
-      {error && <p>{decodeURIComponent(error)}</p>}
+      {error && <p>{error}</p>}
     </div>
   );
-}
+};
+
+export default AuthError;
